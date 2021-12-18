@@ -15,7 +15,7 @@ contract('Ethswap',(accounts) =>{
 let token, ethSwap
 	before(async() => {
 		token = await Token.new()
-		ethSwap = await EthSwap.new()
+		ethSwap = await EthSwap.new(token.address)
 		await token.transfer(ethSwap.address,tokens('1000000'))
 
 	})
@@ -36,5 +36,13 @@ let token, ethSwap
 			assert.equal(balance.toString(),tokens('1000000'))
 
 		}) 
+	})
+
+
+
+	describe('buyTokens()', async() => {
+		it('Allows user to instantly purchase token from ethSwap for a fixed price', async()=>{
+			ethSwap.buyTokens({from: accounts[1], value: '1000000000000000000'})
+		})
 	})
 })
